@@ -1,48 +1,106 @@
 ﻿using System;
+using System.IO;
 
 namespace lab3_4
 {
-    class Program
+    public class Student
     {
-        static void Main(string[] args)
+        private string vardas;
+        private string pavarde;
+        private int numberOfHomework;
+        private int examGrade;
+        private double finalResultAvarage;
+
+        public string Vardas
         {
-            int examGrade, grades=0;
+            get => vardas;
+            set => vardas = value;
+        }
 
-            Console.WriteLine("Iveskite varda\n");
-            string name = Console.ReadLine();
+        public string Pavarde
+        {
+            get => pavarde;
+            set => pavarde = value;
+        }
 
-            Console.WriteLine("\nIveskite pavarde\n");
-            string surname = Console.ReadLine();
+        public int NumberOfHomeWork
+        {
+            get => numberOfHomework;
+            set => numberOfHomework = value;
+        }
 
-            Console.WriteLine("\nIveskite namu darbu skaiciu\n");
-            int numberOfHomeWork = Convert.ToInt32(Console.ReadLine());
+        public int ExamGrade
+        {
+            get => examGrade;
+            set => examGrade = value;
+        }
 
-            for (int i = 0; i < numberOfHomeWork; i++)
+        public double FinalResultAvarage
+        {
+            get => finalResultAvarage;
+            set => finalResultAvarage = value;
+        }
+
+
+        public Student(string vardas, string pavarde, int nuberofhomework, int examgrade, double finalresultavarage)
+        {
+            this.Vardas = vardas;
+            this.Pavarde = pavarde;
+            this.NumberOfHomeWork = nuberofhomework;
+            this.ExamGrade = examgrade;
+            this.FinalResultAvarage = finalresultavarage;
+        }
+
+        public Student()
+        {
+        }
+public void FinalReesult(Student[] studentArray)
+        {
+            int sum=0;
+            Random rnd = new Random();
+            foreach(var i in studentArray)
             {
-                Console.WriteLine("\nIveskite namu darbu pazymi nuo 1-10\n");
-                grades = Convert.ToInt32(Console.ReadLine());
-                if (g > 0 && g <= 10)
+                int[] grades = new int[i.NumberOfHomeWork];
+                for (int r = 0; r<0; r++)
                 {
-                    grades += grades;
+                    grades[r] = rnd.Next(1, 10);
+                    sum += grades[r];
                 }
-                else
-                {
-                    Console.WriteLine("\nIvestas blogas pazymis\n");
-                    i--;
-                }
+                double finalRes = (0.3 * (sum / i.NumberOfHomeWork)) + (0.7 * i.ExamGrade);
+                i.finalResultAvarage = finalRes;
             }
+        }
+        class Program
 
-            Console.WriteLine("\nIveskite egzamino ivertinima nuo 1-10\n");
-            g = Convert.ToInt32(Console.ReadLine());
-            if (g > 0 && g <= 10)
-                examGrade = g;
-            else
+        {
+            static void Main(string[] args)
             {
-                Console.WriteLine("Ivyko klaida <(O_O<)<(O_O)>(>O_O)>\n");
-                return;
+                
+                var lines = File.ReadAllLines(@"d:\Users\Sir Lancelot Joker\source\repos\lab3-4\lab3-4\students.csv");
+                Student[] studentArray = new Student[lines.Length];
+                int size = 0;
+                foreach (var i in lines)
+                {
+                    var val = i.Split(',');
+                    studentArray[size] = new Student(val[0], val[1], int.Parse(val[2]), double.Parse(val[3]));
+                    size++;
+                }
+                Random rnd = new Random();
+                int sumOfGrades = 0;
+                int[] grades = new int[size];
+                for (int i = 0; i<size; i++)
+                {
+                    grades[i] += rnd.Next(1, 10);
+                    sumOfGrades += grades[i];
+                }
+                Console.WriteLine("Studentu sarasas: ");
+                foreach (var i in studentArray)
+                {
+                    Console.WriteLine(i.Vardas + " " + i.Pavarde + " ");
+                    
+                }
+                //double finalResult = (0.3 * (grades / numberOfHomeWork)) + (0.7 * examGrade);
             }
-
-            double finalResult = (0.3 * (grades / numberOfHomeWork)) + (0.7 * examGrade);
         }
     }
 }
