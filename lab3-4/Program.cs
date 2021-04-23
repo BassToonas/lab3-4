@@ -106,6 +106,17 @@ namespace lab3_4
                 double finalResMed = (0.3 * median) + (0.7 * i.ExamGrade);
             }
         }
+        public void SortByName(Student[] studentArray)
+        {
+            foreach (var q in studentArray)
+            {
+                var SortedstudentArray = studentArray.OrderBy(n=>n);
+                foreach (var i in studentArray)
+                {
+                    File.AppendAllText("Students_Sorted_By_Name.csv", $"{i.Vardas},{i.Pavarde},{i.FinalResultAvarage},{i.FinalResultMedian}\n");
+                }
+            }
+        }
         class Program
 
         {
@@ -131,6 +142,7 @@ namespace lab3_4
                 }
                 Student student = new Student();
                 student.FinalResult(studentArray);
+                student.SortByName(studentArray);
                 Console.WriteLine("Studentu sarasas:\n Vardas     Pavarde         Galutinis rezultas       Galutinis rezultas(median)\n--- ");
                 foreach (var i in studentArray)
                 {
